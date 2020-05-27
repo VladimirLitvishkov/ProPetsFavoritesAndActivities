@@ -70,7 +70,9 @@ public class XTokenFilter implements Filter {
 				response.sendError(409,"2");
 				return;
 			}
-			String userId = path.substring(path.lastIndexOf("/") + 1);
+			String userId = findUserInPath(path);
+			System.out.println(userId);
+			System.out.println(responseCheckToken.getHeaders().getFirst("X-userId"));
 			if (!userId.equalsIgnoreCase(responseCheckToken.getHeaders().getFirst("X-userId"))) {
 				response.sendError(409,"3");
 				return;
@@ -81,6 +83,15 @@ public class XTokenFilter implements Filter {
 			return;
 		}
 		chain.doFilter(request, response);
+	}
+
+	private String findUserInPath(String path) {
+		String userId = path.substring(path.indexOf("v1/") + 3);
+		int end = userId.indexOf("/");
+		if (end > 0) {
+			userId = userId.substring(0, end);
+		}
+		return userId;
 	}
 
 	private boolean checkPointCut(String path, String method) {
