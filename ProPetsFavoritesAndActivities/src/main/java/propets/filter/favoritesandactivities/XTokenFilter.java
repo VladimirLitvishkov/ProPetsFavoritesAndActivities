@@ -63,16 +63,16 @@ public class XTokenFilter implements Filter {
 			try {
 				responseCheckToken = restTemplate.exchange(requestCheckToken, String.class);
 			} catch (RestClientException e) {
-				response.sendError(409);
+				response.sendError(409,"1");
 				return;
 			}
 			if (responseCheckToken.getStatusCode().equals(HttpStatus.CONFLICT)) {
-				response.sendError(409);
+				response.sendError(409,"2");
 				return;
 			}
 			String userId = path.substring(path.lastIndexOf("/") + 1);
 			if (!userId.equalsIgnoreCase(responseCheckToken.getHeaders().getFirst("X-userId"))) {
-				response.sendError(409);
+				response.sendError(409,"3");
 				return;
 			}
 			response.addHeader("X-token", responseCheckToken.getHeaders().getFirst("X-token"));
