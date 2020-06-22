@@ -45,16 +45,21 @@ public class FavoritesAndActivitiesServiceImpl implements FavoritesAndActivities
 		String urlLostAndFoundPosts = configuration.getUrlLostAndFoundPosts();
 		String urlMessagePosts = configuration.getUrlMessageingPosts();
 		for (String key : keys.keySet()) {
-			switch (key) {
-			case "message":
+			if (key.equalsIgnoreCase(configuration.getMessageService())) {
 				twits = requestToService(keys.get(key), urlMessagePosts/* , TwitDTO.class */);
-				break;
-			case "lostfound":
+			} else if (key.equalsIgnoreCase(configuration.getLostFoundService())) {
 				lostAndFound = requestToService(keys.get(key), urlLostAndFoundPosts/* , LostAndFoundDTO.class */);
-				break;
-			default:
-				break;
 			}
+//			switch (key) {
+//			case "message":
+//				twits = requestToService(keys.get(key), urlMessagePosts/* , TwitDTO.class */);
+//				break;
+//			case "lostfound":
+//				lostAndFound = requestToService(keys.get(key), urlLostAndFoundPosts/* , LostAndFoundDTO.class */);
+//				break;
+//			default:
+//				break;
+//			}
 		}
 
 		return ResponsePostsDTO.builder().lostAndFoundPosts(lostAndFound).twitPosts(twits).build();

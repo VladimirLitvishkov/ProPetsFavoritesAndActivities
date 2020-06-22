@@ -22,5 +22,11 @@ public class FavoritesAndActivitiesConfiguration {
 	
 	@Value("${urlCheckToken}")
 	String urlCheckToken;
+	
+	@Value("${messageService}")
+	String messageService;
+	
+	@Value("${lostFoundService}")
+	String lostFoundService;
 
 }
